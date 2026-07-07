@@ -1,0 +1,283 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #e0e0e0;
+  background-color: #0a0e27;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* 3D Canvas 触屏手势支持 */
+canvas {
+  touch-action: none;
+}
+
+/* 触屏设备上按钮增大点击区域 */
+@media (pointer: coarse) {
+  .glass-panel button,
+  .glass-panel input {
+    min-height: 36px;
+  }
+}
+
+/* ===== 移动端适配 ===== */
+
+/* 安全区域适配 */
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* 移动端面板滑入动画 */
+@keyframes slideInLeft {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes slideOutLeft {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes slideOutRight {
+  from { transform: translateX(0); }
+  to { transform: translateX(100%); }
+}
+
+.mobile-drawer-left {
+  animation: slideInLeft 0.25s ease-out forwards;
+}
+
+.mobile-drawer-left-closing {
+  animation: slideOutLeft 0.2s ease-in forwards;
+}
+
+.mobile-drawer-right {
+  animation: slideInRight 0.25s ease-out forwards;
+}
+
+.mobile-drawer-right-closing {
+  animation: slideOutRight 0.2s ease-in forwards;
+}
+
+/* 移动端面板遮罩 */
+.mobile-overlay {
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* 移动端触摸友好：增大 range 滑块 */
+@media (max-width: 767px) {
+  input[type="range"] {
+    height: 6px;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    width: 22px;
+    height: 22px;
+  }
+  /* 移动端底部留出导航栏空间 */
+  .mobile-bottom-padding {
+    padding-bottom: calc(40px + env(safe-area-inset-bottom, 0px));
+  }
+  /* 移动端底部栏简化 */
+  .mobile-bottom-bar {
+    padding-bottom: calc(40px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* 自定义滚动条 */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* 自定义range滑块 */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #00d4ff;
+  border: 2px solid #0a0e27;
+  box-shadow: 0 0 8px rgba(0, 212, 255, 0.5);
+  cursor: pointer;
+}
+
+/* 毛玻璃面板 */
+.glass-panel {
+  background: rgba(10, 14, 39, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* 选中文本 */
+::selection {
+  background: rgba(0, 212, 255, 0.3);
+  color: #fff;
+}
+
+/* 动画 */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 4px rgba(0, 212, 255, 0.3); }
+  50% { box-shadow: 0 0 12px rgba(0, 212, 255, 0.6); }
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+/* ===== 页面过渡动画 ===== */
+@keyframes page-enter {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes page-exit {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(0.96); }
+}
+
+.page-enter {
+  animation: page-enter 0.3s ease-out forwards;
+}
+
+.page-exit {
+  animation: page-exit 0.2s ease-in forwards;
+}
+
+/* ===== Toast 动画 ===== */
+@keyframes toast-enter {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.animate-toast-enter {
+  animation: toast-enter 0.3s ease-out;
+}
+
+/* ===== 按钮涟漪效果 ===== */
+.ripple-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255,255,255,0.25) 10%, transparent 10%);
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 0.15s, background-size 0.4s;
+  background-size: 0% 0%;
+}
+
+.ripple-btn:active::after {
+  background-size: 200% 200%;
+  opacity: 1;
+  transition: background-size 0s;
+}
+
+/* ===== 键盘快捷键样式 ===== */
+kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 5px;
+  font-size: 11px;
+  font-family: 'JetBrains Mono', 'Consolas', monospace;
+  color: #a0a0b0;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* ===== 数值闪烁动画 ===== */
+@keyframes value-flash {
+  0%, 100% { color: inherit; }
+  50% { color: #ffdd44; }
+}
+
+.animate-value-flash {
+  animation: value-flash 0.4s ease-out;
+}
+
+/* ===== 脉冲高亮 ===== */
+@keyframes pulse-highlight {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0, 212, 255, 0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(0, 212, 255, 0); }
+}
+
+.animate-pulse-highlight {
+  animation: pulse-highlight 1.5s ease-in-out infinite;
+}
+
+/* ===== 面板过渡 ===== */
+.panel-transition {
+  transition: width 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+}
